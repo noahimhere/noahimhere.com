@@ -1,0 +1,438 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900&display=swap');
+@font-face { font-family: CascadiaCode; src: url('fonts/CascadiaCode-2111.01/otf/static/CascadiaMono-Regular.otf')}
+
+
+/* animaitions */
+@keyframes fadeIn{
+  0%{
+    opacity: 0%;
+  }
+  100%{
+    opacity: 100%;
+  }
+}
+
+@keyframes fadeInMenu{
+  0%{
+    background: transparent;
+  }
+  100%{
+    background: #ffff;
+  }
+}
+
+
+
+@keyframes blinker{
+  from, to { border-color: transparent }
+  50% { border-color: white; }
+}
+
+/* actual stuff */
+
+*
+{
+  
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+  font-family: 'CascadiaCode', sans-serif;
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+.background{
+  z-index: 10;
+  height: 110vh !important;
+  width: 110vw !important;
+
+
+}
+.foreground{
+  z-index: 12;
+  height: 110vh !important;
+  width: 110vw !important;
+  left: -500px;
+}
+
+body
+{
+  min-height:100vh; 
+  background-color: #0d0d0d;
+  /* background: linear-gradient(#181423, #ffff); */
+  overflow-x: hidden;
+}
+header{
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 50px;
+  position:absolute;
+  animation-name: fadeIn;
+  animation-duration: 2s;
+  animation-play-state: running;
+}
+
+header .logo{
+  color: #ffff;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 2em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Poppins', sans-serif;
+}
+/* top menu thing */
+header ul{
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  display: flex;
+  width: 330px;
+  justify-content: center;
+  align-items: center;
+}
+header ul li{
+  list-style: none;
+  margin-left: 0px;
+  padding: 6px 0px;
+}
+header ul li a{
+  margin-left: 5px;
+  text-decoration: none;
+  padding: 6px 15px;
+  color: #0d0d0d;
+}
+
+
+header ul li a:hover{
+  animation-duration: .5s;
+  animation-fill-mode: forwards !important;  
+  animation-name: fadeInMenu;
+  color: #0d0d0d;
+  padding: 6px 15px;
+  border-radius: 25px;
+}
+header ul li a.active{
+  color: #0d0d0d;
+  background:#ffff !important;
+  padding: 6px 15px;
+  border-radius: 25px;
+}
+section
+{
+  overflow: hidden;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+section::before{
+  content: ' ';
+  position: absolute;
+  bottom:0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #000000, transparent);
+  z-index: 1000;
+}
+section img{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+section img#foreground{
+  z-index: 10;
+}
+#text{
+  position: absolute !important;
+  color: #ffff !important;
+  white-space: nowarp !important;
+  font-size: 2.666vw !important;
+  z-index: 11 !important;
+}
+#btn{
+  text-decoration: none;
+  display: inline-block;
+  background: #ffff;
+  color: #181423;
+  font-size: 1.5em;
+  z-index: 11;
+  transform: translateY(100px);
+}
+
+/* All that text and "WELCOME" thing */
+.sec{
+  position: relative;
+  padding: 100px;
+  background: #000000;
+  z-index: 100;
+  height: 2000px;
+}
+.sec h2{
+  font-size: 3.5em;
+  margin-bottom: 10px;
+  color: #fff;
+}
+.sec p{
+  font-size: 1.2em;
+  color: #fff;
+  display:inline;
+
+}
+
+.typingeffect{
+  border-right: 0.45em solid white;
+  animation: blinker .75s step-end infinite;
+}
+/* #cursor{
+  padding-top:.2em;
+  padding-right:3px;
+  background-color:orange;
+  z-index: 500;
+  display: inline;
+} */
+
+/* Animation for the blinker for the typing effect */
+
+
+
+/* The foreground, AKA the part that moves for the parallex scrolling effect */
+
+#foreground{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* For Works.html */
+
+.Works h1{
+  color:#fff;
+  text-align: center;
+  text-decoration: bold;
+  margin-top: 200px;
+}
+.row {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 80px;
+}
+
+
+
+.product, .product button{
+  background-color: black;
+  line-height: 150px;
+  height:350px;
+  position:relative;
+  display:inline-block;
+  width:300px;
+  top:0;
+  transition: top ease 0.5s;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+
+
+.product a, .product button{
+  text-decoration: none;
+  color:white;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+
+.product a img, .product button img{
+  transform: translateY(10%);
+  border-radius:15px;
+  vertical-align: middle;
+  width:225px;
+  height:225px;
+  object-fit: cover;
+}
+
+
+
+.product:hover{
+  top: -10px;
+}
+
+
+/* useless now
+.button {
+  
+  border: none;
+  color: black;
+  background-color: white;
+    padding: 8px 30px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: pointer;
+    border-radius: 40px;
+  
+  }
+  
+  */
+
+
+
+.products::before{
+  content: ' ';
+  position: absolute;
+  bottom:0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to top, #0d0d0d, transparent);
+  z-index: 1000;
+}
+
+
+/* Make sure you are not accessing this website on a 2009 Nokia */
+.screencheck{
+  background: transparent;
+  z-index: -5;
+}
+.centeredscrfail{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color:transparent;
+  z-index:0;
+  background-color: transparent;
+  display:none;
+}
+.products{
+  position: relative;
+  padding: 100px;
+  background:#0d0d0d;
+  z-index: 100;
+  padding: 30px 0px;
+}
+
+
+
+@media (max-device-width: 800px) {
+  .screencheck{
+    position: fixed;
+    margin:0;
+    height:100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #484848;
+    z-index:50000;
+  }
+
+  .screencheck p{
+    text-align:center; 
+    vertical-align: middle;
+    display: table-cell;   
+    position: fixed;
+  }
+  .centeredscrfail{
+    color:#0d0d0d;
+    z-index:9999999999;
+  }
+}
+
+/* Popup stuff obselete now */
+/* .popupTerminal{
+  margin-top: 250px;
+  background: #000000;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  width: 0px;
+  height: 0px;
+  float:left;
+  
+  animation-name: slide;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  overflow-y: scroll;
+
+}
+@keyframes slide {
+  0%{
+    height: 0px;
+    width: 0px;
+
+  }
+  100%{
+    height: 400px;
+    width: 700px;
+
+  }
+}
+
+.popupTerminal p{
+  overflow: auto;
+  word-wrap: break-word;
+}
+.popupTop{
+
+  background: #000000;
+  height:25px;
+  width:698px;
+}
+
+.popupTop img{
+  height:25px;
+  float:right
+} */
+/* Frosted glass */
+
+/*  */
+
+.glass-bg{
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border:1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+
+
+
+/* Change Selection Text Color When Highlighting */ 
+
+::-moz-selection { background-color: #ffffff; 
+
+  color: #000; } 
+  
+  ::selection { background-color: #ffffff; 
+  
+  color: #000; }
