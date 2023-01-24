@@ -7,11 +7,15 @@ let description = document.getElementById('typing');
 let sec = document.getElementById('sec');
 var i = 0;
 var loading = "SYSTEM CHECK: ACTIVE" + "\r\n" + "ACCESS PERMISSION: GRANTED" + "\r\n" + "WARNING: A very small percentage of individuals may experience epileptic seizures when exposed to certain light patterns or flashing lights. Exposure to certain patters or backgrounds on a computer screen, or while playing video games, may induce epileptic seizures in these individuals. Certain conditions may induce previously undetected epileptic symptoms even in persons who have no history of prior seizures or epilepsy. If you, or anyone in your family, have an epileptic condition, consult your physician prior to playing. If you experience any of the following symptoms while playing a video or computer game - dizziness, altered vision, eye or muscle twitches, loss of awareness, disorientation, any involuntary movement, or convulsions - IMMEDIATELY discontinue use and consult your physician before entering." + "\r\n" + "ACCESS GRANTED; WAITING FOR SERVER";
-var txt = "Hi, my name is Noah. I usually go by the username of 'noahimhere' and I love programming, 3d printing, modeling, and more. Most of the things I have made that I could salvage should be up on this website. This website has been fully coded, designed, and published by me. Feel free to explore.";
-var txtabt = "Amo gus";
-var speed = 20;
+var txt = "Hi, I'm Noah. Artworks and other works I make will be posted to this website. ";
+var txtabt = "Hi, I'm Noah. Artworks and other works I make will be posted to this website. This website will be updated frequently, so if you are ever curious on what I am working on right now, you should be able to find it here.";
+var speed = 50;
 var beenSeen = 0;
 var beenSeenAbt = 0;
+var beenSeenfrontText = 0;
+var beenSeennoahimhere = 0;
+var beenSeenContact = 0;
+var nothing = 0;
 
 // how to typewrite
 // if(i < elem.length){
@@ -20,13 +24,16 @@ var beenSeenAbt = 0;
 //   setTimeout(typeWriter, speed);
 // }
 function typeWriter(text, element) {
-  
   if (i < text.length) {
     document.getElementById(element).innerHTML += text.charAt(i);
     i++;
     setTimeout(typeWriter, speed, text, element);
   }
+  else{
+    i = 0;
+  }
 }
+
 
 function isScrolledIntoView(elem)
 {
@@ -40,6 +47,28 @@ function isScrolledIntoView(elem)
 if(document.getElementById("typingabt") != null){
   typeWriter(txtabt, "typingabt");
 }
+
+if(document.getElementById("text") != null){
+  if(isScrolledIntoView("#text")){
+    if(beenSeenfrontText == 0){
+      typeWriter("Noah", "text");
+      beenSeenfrontText = 1;
+    }
+    
+  }
+}
+
+
+
+if(document.getElementById("typingcont") != null){
+  if(isScrolledIntoView("#typingcont")){
+    if(beenSeenContact == 0){
+      typeWriter("Email: noahimhere@noahimhere.com", "typingcont")
+      beenSeenContact = 1;
+    }
+  }  
+}
+
 
 
 // document.addEventListener('DOMContentLoaded', function() {
