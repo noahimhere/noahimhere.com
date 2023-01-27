@@ -21,6 +21,14 @@
   }
 }
 
+@keyframes whiteToBlack{
+  0%{
+    color: #C9C9C8;
+  }
+  100%{
+    color: #0d0d0d;
+  }
+}
 
 
 @keyframes blinker{
@@ -119,7 +127,7 @@ header ul li a{
   margin-left: 5px;
   text-decoration: none;
   padding: 6px 15px;
-  color: #0d0d0d;
+  color: #C9C9C8;
 }
 
 
