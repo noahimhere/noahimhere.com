@@ -11,8 +11,9 @@ var mouseY = window.innerHeight / 2;
 var oldX = 0;
 var oldY = 0;
 var speed = 0.05;
-var speedcam = 0.005;
+var speedcam = 0.1;
 var controls, water, sun;
+var camtargetx, camtargety;
 document.addEventListener("mousemove", function (evt) {
   mouseX = evt.clientX;
   mouseY = evt.clientY;
@@ -134,6 +135,9 @@ function init() {
 
   }
 
+  oldX = mouseX;
+  oldY = mouseY;
+
   updateSun();
 }
 
@@ -170,16 +174,34 @@ function animate() {
     pos.z
   );
 
+  if(pointer.position.x > 400){
+    pointer.position.x = 400;
+  }
+  if(pointer.position.x < -400){
+    pointer.position.x = -400;
+  }
+
+  if(pointer.position.y > 400){
+    pointer.position.y = 400;
+  }
+  if(pointer.position.y < -400){
+    pointer.position.y = -400;
+  }
+  
+  
+
   water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
 
   camera.lookAt(pointer.position);
+
+//   camera.position.x = camera.position.x + pointer.position.x / 200;
 
   let diffx = pointer.position.x / 2;
   let diffy = pointer.position.y / 2;
   
 
-  oldX = mouseX;
-  oldY = mouseY;
+
+  
 
   //   console.log("IT AINT NAN BOI")
   //   }
@@ -189,9 +211,10 @@ function animate() {
   //   }
   //   console.log(pointer.position);
   //   console.log(clock.getElapsedTime());
-
   camera.lookAt(pointer.position.x, pointer.position.y, pointer.position.z);
-  camera.rotation.z = (distx * speed) / -250;
-  console.log(camera.rotation.z);
+  camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
+  camtargetx =  pointer.position.x / -15;
+  camera.position.x = camtargetx;
+  console.log(camtargetx);
   renderer.render(scene, camera);
 }
