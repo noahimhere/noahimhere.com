@@ -22,6 +22,7 @@ document.addEventListener("mousemove", function (evt) {
 var scene, camera, renderer;
 var geometry, material;
 var pointer;
+var centerpiece;
 
 init();
 
@@ -41,7 +42,15 @@ function init() {
   );
   camera.position.z = 1000;
 
-
+  const centerpieceo = new THREE.BoxGeometry(100,100,100);
+  const centerpiecem = new THREE.MeshStandardMaterial({
+    color:0xffffff,
+  })
+  centerpiece = new THREE.Mesh(centerpieceo, centerpiecem);
+  centerpiece.rotation.x = 45;
+  centerpiece.rotation.y = 45;
+  centerpiece.position.y = 50;
+  scene.add(centerpiece);
 
   renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector("#bg"),
@@ -53,18 +62,19 @@ function init() {
   const cursor = new THREE.SphereGeometry(12, 4, 2);
   const cursorm = new THREE.MeshBasicMaterial({
     transparent: true,
-    opacity: 0,
+    opacity: 1,
+    wireframe:true,
   });
   pointer = new THREE.Mesh(cursor, cursorm);
   scene.add(pointer);
   var pos = new THREE.Vector3(
-    (mouseX / window.innerWidth) * 800 - 400,
-    -(mouseY / window.innerHeight) * 800 + 400,
+    (mouseX / window.innerWidth) * 500 - 250,
+    -(mouseY / window.innerHeight) * 500 + 250,
     0
   );
   pos = new THREE.Vector3(
-    (mouseX / window.innerWidth) * 800 - 400,
-    -(mouseY / window.innerHeight) * 800 + 400,
+    (mouseX / window.innerWidth) * 500 - 250,
+    -(mouseY / window.innerHeight) * 500 + 250,
     0
   );
   pointer.position.set(pos.x, pos.y, pos.z);
@@ -90,7 +100,7 @@ function init() {
   );
 
   water.rotation.x = - Math.PI / 2;
-  water.position.y = -100;
+  water.position.y = -50;
 
   scene.add( water );
 
@@ -101,9 +111,10 @@ function init() {
   const skyUniforms = sky.material.uniforms;
 
   skyUniforms[ 'turbidity' ].value = 10;
-  skyUniforms[ 'rayleigh' ].value = 2;
+  skyUniforms[ 'rayleigh' ].value = 3;
   skyUniforms[ 'mieCoefficient' ].value = 0.005;
-  skyUniforms[ 'mieDirectionalG' ].value = 0.8;
+  skyUniforms[ 'mieDirectionalG' ].value = 0.3;
+//   skyUniforms[ 'exposure' ].value = renderer.toneMappingExposure;
 
   const parameters = {
       elevation: 2,
@@ -114,7 +125,7 @@ function init() {
   const sceneEnv = new THREE.Scene();
 
   let renderTarget;
-
+  const uniforms = sky.material.uniforms;
   function updateSun() {
 
       const phi = THREE.MathUtils.degToRad( 90 - parameters.elevation );
@@ -124,6 +135,7 @@ function init() {
 
       sky.material.uniforms[ 'sunPosition' ].value.copy( sun );
       water.material.uniforms[ 'sunDirection' ].value.copy( sun ).normalize();
+      uniforms[ 'sunPosition' ].value.copy( sun );
 
       if ( renderTarget !== undefined ) renderTarget.dispose();
 
@@ -139,6 +151,7 @@ function init() {
   oldY = mouseY;
 
   updateSun();
+  renderer.toneMappingExposure = renderer.toneMappingExposure;
 }
 
 animate();
@@ -146,8 +159,8 @@ animate();
 function animate() {
   //   TWEEN.update();
   requestAnimationFrame(animate);
-  let targetx = (mouseX / window.innerWidth) * 800 - 400;
-  let targety = -(mouseY / window.innerHeight) * 800 + 400;
+  let targetx = (mouseX / window.innerWidth) * 500 - 250;
+  let targety = -(mouseY / window.innerHeight) * 500 + 250;
   let distx = targetx - pointer.position.x;
   let disty = targety - pointer.position.y;
   //   tween = new TWEEN.Tween(pointer.position).to({x:pos.x, y:pos.y, z:pos.z}, 10000).start();
@@ -213,7 +226,7 @@ function animate() {
   //   console.log(clock.getElapsedTime());
   camera.lookAt(pointer.position.x, pointer.position.y, pointer.position.z);
   camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
-  camtargetx =  pointer.position.x / -15;
+  camtargetx =  pointer.position.x / -2.5;
   camera.position.x = camtargetx;
   console.log(camtargetx);
   renderer.render(scene, camera);
