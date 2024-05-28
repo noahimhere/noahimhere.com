@@ -1,3 +1,13 @@
+:root{
+  --text: #ffffff;
+  --background: #121517;
+  --primary: #6408f8;
+  --secondary: #3fabc0;
+  --accent: #1bca8d;
+
+}
+
+
 canvas{
   position:fixed;
   top: 0;
