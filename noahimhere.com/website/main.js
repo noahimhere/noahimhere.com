@@ -31,7 +31,7 @@ var centerpiece;
 
 const hdrEquirect = new RGBELoader()
 .setPath( 'textures/' )
-.load( 'spruit_sunrise_2k.hdr', function () {
+.load( 'studio_small_08_2k.hdr', function () {
 
     hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
 
@@ -64,7 +64,7 @@ function init() {
   const centerpieceo = new THREE.BoxGeometry(500,500,500);
   const centerpiecem = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
-    metalness: 1,
+    metalness: .2,
     roughness: 0.5,
     ior: 1.1,
     envMap: hdrEquirect,
@@ -77,7 +77,7 @@ function init() {
     transparent: true
   })
   centerpiece = new THREE.Mesh(centerpieceo, centerpiecem);
-  // scene.add(centerpiece);
+  scene.add(centerpiece);
 
 
   
@@ -104,31 +104,31 @@ function init() {
   pointer.position.set(pos.x, pos.y, pos.z);
 
   //GLTF
-  const loader = new GLTFLoader();
-  loader.load(
-    '/models/background.glb',
-    function(gltf){
-      gltf.scene.traverse((child) => {
-        let meshIndex = 0;
-        if (child.isMesh){
-          console.log("le child is le mesh");
+  // const loader = new GLTFLoader();
+  // loader.load(
+  //   '/models/background.glb',
+  //   function(gltf){
+  //     gltf.scene.traverse((child) => {
+  //       let meshIndex = 0;
+  //       if (child.isMesh){
+  //         console.log("le child is le mesh");
 
-          switch(meshIndex){
-            case 0:
-              child.material = centerpiecem;
-              scene.add(gltf.scene);
-              break;
-            case 1:
-              child.material = new THREE.MeshBasicMaterial({color : 0xffffff});
-          }
-          meshIndex++;
-        }
-      })
-      // gltf.scene.rotation.x = 0.5;
-      // gltf.scene.rotation.y = 0.5;
-      // scene.add(gltf.scene, centerpiecem);
-    }
-  )
+  //         switch(meshIndex){
+  //           case 0:
+  //             child.material = centerpiecem;
+  //             scene.add(gltf.scene);
+  //             break;
+  //           case 1:
+  //             child.material = new THREE.MeshBasicMaterial({color : 0xffffff});
+  //         }
+  //         meshIndex++;
+  //       }
+  //     })
+  //     // gltf.scene.rotation.x = 0.5;
+  //     // gltf.scene.rotation.y = 0.5;
+  //     // scene.add(gltf.scene, centerpiecem);
+  //   }
+  // )
     
 
 
@@ -230,13 +230,25 @@ function animate() {
   //     console.log("its... nan?")
   //   }
   //   console.log(pointer.position);
-  //   console.log(clock.getElapsedTime());
+    // console.log(clock.getElapsedTime());
   camera.lookAt(pointer.position.x, pointer.position.y, pointer.position.z);
   camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
-  camtargetx =  pointer.position.x / -2.5;
+  camtargetx =  pointer.position.x * -0.6;
+  camtargety = pointer.position.y * -0.4;
   camera.position.x = camtargetx;
+  camera.position.y = camtargety;
   centerpiece.position.z = -1;
-  centerpiece.rotation.x += 0.01;
+  let currentime = clock.getElapsedTime();
+  if(currentime > 2.5){
+    currentime = 2.5;
+  }
+  currentime *= 20;
+  let animrate = -0.5*(currentime**2) + 50 * currentime - 9 ;
+  animrate = animrate - 1241;
+  centerpiece.position.y = animrate
+  console.log(animrate);
+  console.log(centerpiece.position);
   centerpiece.rotation.y += 0.01;
+  centerpiece.rotation.z += 0.01;
   renderer.render(scene, camera);
 }
