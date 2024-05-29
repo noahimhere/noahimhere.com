@@ -79,6 +79,15 @@ function init() {
   centerpiece = new THREE.Mesh(centerpieceo, centerpiecem);
   scene.add(centerpiece);
 
+  //BACKGROUND
+  const backgroundg = new THREE.PlaneGeometry(1000, 1000, 1000);
+  const platecolor = new THREE.TextureLoader().load("textures/MetalPlates004_4K-JPG/MetalPlates004_4K-JPG_Color.jpg");
+  platecolor.wrapS = THREE.RepeatWrapping;
+  platecolor.wrapT = THREE.RepeatWrapping;
+  platecolor.repeat.set(4,4);
+  const backgroundm = new THREE.MeshStandardMaterial({
+    map : platecolor,
+  })
 
   
 
