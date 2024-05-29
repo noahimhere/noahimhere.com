@@ -2,9 +2,10 @@ import "./style.css";
 
 import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
-import { Sky } from 'three/addons/objects/Sky.js';
-import { Water } from 'three/addons/objects/Water.js';
+// import { Sky } from 'three/addons/objects/Sky.js';
+// import { Water } from 'three/addons/objects/Water.js';
 import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 var clock = new THREE.Clock();
 var pos = new THREE.Vector3(); // create once and reuse
 var mouseX = window.innerWidth / 2;
@@ -26,6 +27,8 @@ var pointer;
 var centerpiece;
 
 
+
+
 const hdrEquirect = new RGBELoader()
 .setPath( 'textures/' )
 .load( 'spruit_sunrise_2k.hdr', function () {
@@ -36,8 +39,8 @@ const hdrEquirect = new RGBELoader()
 init();
 function getmouse() {}
 function init() {
+
   //BASIC STARTER STUFF
-  sun = new THREE.Vector3();
   clock.start();
   clock.running = true;
   renderer = new THREE.WebGLRenderer({
@@ -58,12 +61,12 @@ function init() {
 
   //CENTER MAIN
 
-  const centerpieceo = new THREE.BoxGeometry(100,100,100);
+  const centerpieceo = new THREE.BoxGeometry(500,500,500);
   const centerpiecem = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
     metalness: 1,
-    roughness: 0.27,
-    ior: 1.5,
+    roughness: 0.5,
+    ior: 1.1,
     envMap: hdrEquirect,
     envMapIntensity: 1,
     transmission: 1, // use material.transmission for glass materials
@@ -74,10 +77,7 @@ function init() {
     transparent: true
   })
   centerpiece = new THREE.Mesh(centerpieceo, centerpiecem);
-  centerpiece.rotation.x = 45;
-  centerpiece.rotation.y = 45;
-  centerpiece.position.y = 50;
-  scene.add(centerpiece);
+  // scene.add(centerpiece);
 
 
   
@@ -87,7 +87,7 @@ function init() {
   const cursor = new THREE.SphereGeometry(0, 4, 2);
   const cursorm = new THREE.MeshBasicMaterial({
     transparent: true,
-    opacity: 0,
+    opacity: 1,
   });
   pointer = new THREE.Mesh(cursor, cursorm);
   scene.add(pointer);
@@ -103,31 +103,36 @@ function init() {
   );
   pointer.position.set(pos.x, pos.y, pos.z);
 
-  //WATER 
+  //GLTF
+  const loader = new GLTFLoader();
+  loader.load(
+    '/models/background.glb',
+    function(gltf){
+      gltf.scene.traverse((child) => {
+        let meshIndex = 0;
+        if (child.isMesh){
+          console.log("le child is le mesh");
 
-  const waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
-  water = new Water(
-      waterGeometry,
-      {
-          textureWidth: 2048,
-          textureHeight: 2048,
-          waterNormals: new THREE.TextureLoader().load( 'textures/waternormals.jpg', function ( texture ) {
+          switch(meshIndex){
+            case 0:
+              child.material = centerpiecem;
+              scene.add(gltf.scene);
+              break;
+            case 1:
+              child.material = new THREE.MeshBasicMaterial({color : 0xffffff});
+          }
+          meshIndex++;
+        }
+      })
+      // gltf.scene.rotation.x = 0.5;
+      // gltf.scene.rotation.y = 0.5;
+      // scene.add(gltf.scene, centerpiecem);
+    }
+  )
+    
 
-              texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 
-          } ),
-          sunDirection: new THREE.Vector3(),
-          sunColor: 0xf5c242,
-          waterColor: 0x001A1F,
-          distortionScale: 15.7,
-          fog: true,
-      }
-  );
 
-  water.rotation.x = - Math.PI / 2;
-  water.position.y = -50;
-
-  scene.add( water );
 
 
 
@@ -137,6 +142,8 @@ function init() {
 
 
   renderer.toneMappingExposure = 1;
+
+
 }
 
 function generateTexture() {
@@ -158,6 +165,7 @@ animate();
 function animate() {
   //   TWEEN.update();
   requestAnimationFrame(animate);
+  
   let targetx = (mouseX / window.innerWidth) * 500 - 250;
   let targety = -(mouseY / window.innerHeight) * 500 + 250;
   let distx = targetx - pointer.position.x;
@@ -179,11 +187,11 @@ function animate() {
 
   // pos.copy( camera.position ).add( vec.multiplyScalar( distance ) );
   //   if(isNaN(pos.x) && isNaN(pos.y) == false){
-
+  
   pointer.position.set(
     pointer.position.x + distx * speed,
     pointer.position.y + disty * speed,
-    pos.z
+    0,
   );
 
   if(pointer.position.x > 400){
@@ -202,7 +210,7 @@ function animate() {
   
   
 
-  water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
+  // water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
 
   camera.lookAt(pointer.position);
 
@@ -227,5 +235,8 @@ function animate() {
   camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
   camtargetx =  pointer.position.x / -2.5;
   camera.position.x = camtargetx;
+  centerpiece.position.z = -1;
+  centerpiece.rotation.x += 0.01;
+  centerpiece.rotation.y += 0.01;
   renderer.render(scene, camera);
 }
