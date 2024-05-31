@@ -4,8 +4,8 @@ import * as THREE from "three";
 import * as TWEEN from "@tweenjs/tween.js";
 // import { Sky } from 'three/addons/objects/Sky.js';
 // import { Water } from 'three/addons/objects/Water.js';
-import { RGBELoader } from 'three/addons/loaders/RGBELoader.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 var clock = new THREE.Clock();
 var pos = new THREE.Vector3(); // create once and reuse
 var mouseX = window.innerWidth / 2;
@@ -16,6 +16,8 @@ var speed = 0.05;
 var speedcam = 0.1;
 var controls, water, sun;
 var camtargetx, camtargety;
+var centersphere;
+var centergroup;
 document.addEventListener("mousemove", function (evt) {
   mouseX = evt.clientX;
   mouseY = evt.clientY;
@@ -26,20 +28,9 @@ var geometry, material;
 var pointer;
 var centerpiece;
 
-
-
-
-const hdrEquirect = new RGBELoader()
-.setPath( 'textures/' )
-.load( 'studio_small_08_2k.hdr', function () {
-
-    hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
-
-} );
 init();
 function getmouse() {}
 function init() {
-
   //BASIC STARTER STUFF
   clock.start();
   clock.running = true;
@@ -47,9 +38,22 @@ function init() {
     canvas: document.querySelector("#bg"),
   });
   scene = new THREE.Scene();
-  scene.background = hdrEquirect;
+  
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
+  //HDRI
+  const hdrEquirect = new RGBELoader()
+    .setPath("textures/")
+    .load("studio_small_08_2k.hdr", function (texture) {
+      hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
+      var envMap = pmremGenerator.fromEquirectangular(texture).texture;
+      scene.background = envMap;
+      scene.environment = envMap;
+      texture.dispose();
+      pmremGenerator.dispose();
+    });
+    var pmremGenerator = new THREE.PMREMGenerator( renderer );
+    pmremGenerator.compileEquirectangularShader();
 
   camera = new THREE.PerspectiveCamera(
     75,
@@ -58,13 +62,13 @@ function init() {
     10000
   );
   camera.position.z = 1000;
-
+  scene.background = hdrEquirect;
   //CENTER MAIN
 
-  const centerpieceo = new THREE.BoxGeometry(500,500,500);
+  const centerpieceo = new THREE.BoxGeometry(500, 500, 500);
   const centerpiecem = new THREE.MeshPhysicalMaterial({
     color: 0xffffff,
-    metalness: .2,
+    metalness: 0.2,
     roughness: 0.5,
     ior: 1.1,
     envMap: hdrEquirect,
@@ -74,22 +78,31 @@ function init() {
     specularColor: 0xffffff,
     opacity: 1,
     side: THREE.DoubleSide,
-    transparent: true
-  })
+    transparent: true,
+  });
   centerpiece = new THREE.Mesh(centerpieceo, centerpiecem);
-  scene.add(centerpiece);
+
+  const centersphereo = new THREE.SphereGeometry(225);
+  const centerspherem = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+  })
+  centersphere = new THREE.Mesh(centersphereo, centerspherem);
+  centergroup = new THREE.Group();
+  centergroup.add(centerpiece);
+  centergroup.add(centersphere);
+  scene.add(centergroup);
 
   //BACKGROUND
   const backgroundg = new THREE.PlaneGeometry(1000, 1000, 1000);
-  const platecolor = new THREE.TextureLoader().load("textures/MetalPlates004_4K-JPG/MetalPlates004_4K-JPG_Color.jpg");
+  const platecolor = new THREE.TextureLoader().load(
+    "textures/MetalPlates004_4K-JPG/MetalPlates004_4K-JPG_Color.jpg"
+  );
   platecolor.wrapS = THREE.RepeatWrapping;
   platecolor.wrapT = THREE.RepeatWrapping;
-  platecolor.repeat.set(4,4);
+  platecolor.repeat.set(4, 4);
   const backgroundm = new THREE.MeshStandardMaterial({
-    map : platecolor,
-  })
-
-  
+    map: platecolor,
+  });
 
   //CURSOR FOR CAMERA PLACEMENT
 
@@ -138,35 +151,25 @@ function init() {
   //     // scene.add(gltf.scene, centerpiecem);
   //   }
   // )
-    
-
-
-
-
-
-
 
   oldX = mouseX;
   oldY = mouseY;
-
-
+  //RENDERING
   renderer.toneMappingExposure = 1;
-
-
+  renderer.gammaInput = true;
+  renderer.gammaOutput = true;
 }
 
 function generateTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 2;
+  canvas.height = 2;
 
-    const canvas = document.createElement( 'canvas' );
-    canvas.width = 2;
-    canvas.height = 2;
+  const context = canvas.getContext("2d");
+  context.fillStyle = "white";
+  context.fillRect(0, 1, 2, 1);
 
-    const context = canvas.getContext( '2d' );
-    context.fillStyle = 'white';
-    context.fillRect( 0, 1, 2, 1 );
-
-    return canvas;
-
+  return canvas;
 }
 
 animate();
@@ -174,7 +177,7 @@ animate();
 function animate() {
   //   TWEEN.update();
   requestAnimationFrame(animate);
-  
+
   let targetx = (mouseX / window.innerWidth) * 500 - 250;
   let targety = -(mouseY / window.innerHeight) * 500 + 250;
   let distx = targetx - pointer.position.x;
@@ -196,41 +199,35 @@ function animate() {
 
   // pos.copy( camera.position ).add( vec.multiplyScalar( distance ) );
   //   if(isNaN(pos.x) && isNaN(pos.y) == false){
-  
+
   pointer.position.set(
     pointer.position.x + distx * speed,
     pointer.position.y + disty * speed,
-    0,
+    0
   );
 
-  if(pointer.position.x > 400){
+  if (pointer.position.x > 400) {
     pointer.position.x = 400;
   }
-  if(pointer.position.x < -400){
+  if (pointer.position.x < -400) {
     pointer.position.x = -400;
   }
 
-  if(pointer.position.y > 400){
+  if (pointer.position.y > 400) {
     pointer.position.y = 400;
   }
-  if(pointer.position.y < -400){
+  if (pointer.position.y < -400) {
     pointer.position.y = -400;
   }
-  
-  
 
   // water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
 
   camera.lookAt(pointer.position);
 
-//   camera.position.x = camera.position.x + pointer.position.x / 200;
+  //   camera.position.x = camera.position.x + pointer.position.x / 200;
 
   let diffx = pointer.position.x / 2;
   let diffy = pointer.position.y / 2;
-  
-
-
-  
 
   //   console.log("IT AINT NAN BOI")
   //   }
@@ -239,25 +236,23 @@ function animate() {
   //     console.log("its... nan?")
   //   }
   //   console.log(pointer.position);
-    // console.log(clock.getElapsedTime());
+  console.log(clock.getElapsedTime());
   camera.lookAt(pointer.position.x, pointer.position.y, pointer.position.z);
   camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
-  camtargetx =  pointer.position.x * -0.6;
+  camtargetx = pointer.position.x * -0.6;
   camtargety = pointer.position.y * -0.4;
   camera.position.x = camtargetx;
   camera.position.y = camtargety;
   centerpiece.position.z = -1;
   let currentime = clock.getElapsedTime();
-  if(currentime > 2.5){
-    currentime = 2.5;
+  if (currentime < 1) {
+    currentime *= 50;
+    let animrate = -0.5 * currentime ** 2 + 50 * currentime - 9;
+    animrate = animrate - 1350;
+    centergroup.position.y = animrate;
+  } else if (currentime < 3) {
   }
-  currentime *= 20;
-  let animrate = -0.5*(currentime**2) + 50 * currentime - 9 ;
-  animrate = animrate - 1241;
-  centerpiece.position.y = animrate
-  console.log(animrate);
-  console.log(centerpiece.position);
-  centerpiece.rotation.y += 0.01;
-  centerpiece.rotation.z += 0.01;
+  centergroup.rotation.y += 0.01;
+  centergroup.rotation.z += 0.01;
   renderer.render(scene, camera);
 }

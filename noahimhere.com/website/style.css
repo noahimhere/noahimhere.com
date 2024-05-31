@@ -13,3 +13,13 @@ canvas{
   top: 0;
   left: 0;
 }
+#navbar{
+  width: 25vw;
+  height:7vh;
+  left: 37.5vw;
+  background-color:rgba(50, 50, 50, 0.5);
+  z-index: 5;
+  position:fixed;
+  top: 88vh;
+  border-radius: 1.5vh;
+}
