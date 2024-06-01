@@ -18,6 +18,7 @@ var controls, water, sun;
 var camtargetx, camtargety;
 var centersphere;
 var centergroup;
+var herotext;
 document.addEventListener("mousemove", function (evt) {
   mouseX = evt.clientX;
   mouseY = evt.clientY;
@@ -125,32 +126,41 @@ function init() {
   );
   pointer.position.set(pos.x, pos.y, pos.z);
 
-  //GLTF
-  // const loader = new GLTFLoader();
-  // loader.load(
-  //   '/models/background.glb',
-  //   function(gltf){
-  //     gltf.scene.traverse((child) => {
-  //       let meshIndex = 0;
-  //       if (child.isMesh){
-  //         console.log("le child is le mesh");
+  const textm = new THREE.MeshStandardMaterial({
+    color: 0x000000,
+  })
 
-  //         switch(meshIndex){
-  //           case 0:
-  //             child.material = centerpiecem;
-  //             scene.add(gltf.scene);
-  //             break;
-  //           case 1:
-  //             child.material = new THREE.MeshBasicMaterial({color : 0xffffff});
-  //         }
-  //         meshIndex++;
-  //       }
-  //     })
-  //     // gltf.scene.rotation.x = 0.5;
-  //     // gltf.scene.rotation.y = 0.5;
-  //     // scene.add(gltf.scene, centerpiecem);
-  //   }
-  // )
+  const loader = new GLTFLoader();
+  loader.load(
+    '/models/herotext.glb',
+    function(gltf){
+      gltf.scene.traverse((child) => {
+        let meshIndex = 0;
+        if (child.isMesh){
+          console.log("le child is le mesh");
+
+          switch(meshIndex){
+            case 0:
+              child.material = textm;
+              
+              scene.add(gltf.scene);
+              gltf.scene.rotation.x = 1.5;
+              gltf.scene.rotation.y = 0;
+              gltf.scene.position.z = -250;
+              console.log(gltf.scene.rotation);
+              child.name = "herotext";
+              console.log(child.name);
+              break;
+            case 1:
+              child.material = new THREE.MeshBasicMaterial({color : 0xffffff});
+          }
+          meshIndex++;
+        }
+      })
+    }
+  )
+  
+
 
   oldX = mouseX;
   oldY = mouseY;
@@ -177,6 +187,7 @@ animate();
 function animate() {
   //   TWEEN.update();
   requestAnimationFrame(animate);
+  herotext = scene.getObjectByName("herotext", true);
 
   let targetx = (mouseX / window.innerWidth) * 500 - 250;
   let targety = -(mouseY / window.innerHeight) * 500 + 250;
@@ -236,7 +247,6 @@ function animate() {
   //     console.log("its... nan?")
   //   }
   //   console.log(pointer.position);
-  console.log(clock.getElapsedTime());
   camera.lookAt(pointer.position.x, pointer.position.y, pointer.position.z);
   camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
   camtargetx = pointer.position.x * -0.6;
@@ -252,7 +262,15 @@ function animate() {
     centergroup.position.y = animrate;
   } else if (currentime < 3) {
   }
+  
   centergroup.rotation.y += 0.01;
   centergroup.rotation.z += 0.01;
+
+
+
+  // if(herotext != null){herotext.lookAt(camera)};
+
+
+
   renderer.render(scene, camera);
 }

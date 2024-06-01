@@ -23,3 +23,7 @@ canvas{
   top: 88vh;
   border-radius: 1.5vh;
 }
+
+h1{
+  font-family:"Jetbrains Mono", sans-serif;
+}
