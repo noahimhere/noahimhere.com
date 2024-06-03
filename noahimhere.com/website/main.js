@@ -6,6 +6,7 @@ import * as TWEEN from "@tweenjs/tween.js";
 // import { Water } from 'three/addons/objects/Water.js';
 import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { gsap } from "./node_modules/gsap/index.js";
 var clock = new THREE.Clock();
 var pos = new THREE.Vector3(); // create once and reuse
 var mouseX = window.innerWidth / 2;
@@ -19,6 +20,7 @@ var camtargetx, camtargety;
 var centersphere;
 var centergroup;
 var herotext;
+var menuon = false;
 document.addEventListener("mousemove", function (evt) {
   mouseX = evt.clientX;
   mouseY = evt.clientY;
@@ -29,6 +31,8 @@ var geometry, material;
 var pointer;
 var centerpiece;
 
+
+
 init();
 function getmouse() {}
 function init() {
@@ -37,6 +41,7 @@ function init() {
   clock.running = true;
   renderer = new THREE.WebGLRenderer({
     canvas: document.querySelector("#bg"),
+    alpha:true,
   });
   scene = new THREE.Scene();
   
@@ -48,7 +53,7 @@ function init() {
     .load("studio_small_08_2k.hdr", function (texture) {
       hdrEquirect.mapping = THREE.EquirectangularReflectionMapping;
       var envMap = pmremGenerator.fromEquirectangular(texture).texture;
-      scene.background = envMap;
+      // scene.background = envMap;
       scene.environment = envMap;
       texture.dispose();
       pmremGenerator.dispose();
@@ -63,7 +68,7 @@ function init() {
     10000
   );
   camera.position.z = 1000;
-  scene.background = hdrEquirect;
+
   //CENTER MAIN
 
   const centerpieceo = new THREE.BoxGeometry(500, 500, 500);
@@ -165,6 +170,7 @@ function init() {
   oldX = mouseX;
   oldY = mouseY;
   //RENDERING
+  renderer.setClearColor( 0x000000, 0 ); // the default
   renderer.toneMappingExposure = 1;
   renderer.gammaInput = true;
   renderer.gammaOutput = true;
@@ -274,3 +280,17 @@ function animate() {
 
   renderer.render(scene, camera);
 }
+
+
+//ESC MENU
+
+document.body.addEventListener('keydown', function(e) {
+  if (e.key == "Escape" && menuon == false) {
+    gsap.to("#menu", {x:window.innerWidth})
+    menuon = true;
+  }
+  else if (e.key == "Escape" && menuon == true){
+    gsap.to("#menu", {x:-window.innerWidth})
+    menuon = false
+  }
+});
