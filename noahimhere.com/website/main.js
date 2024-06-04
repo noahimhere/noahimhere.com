@@ -32,6 +32,12 @@ var pointer;
 var centerpiece;
 
 
+import * as POSTPROCESSING from "postprocessing"
+import { SSGIEffect, TRAAEffect, MotionBlurEffect, VelocityDepthNormalPass } from "realism-effects"
+
+
+
+
 
 init();
 function getmouse() {}
@@ -96,7 +102,7 @@ function init() {
   centergroup = new THREE.Group();
   centergroup.add(centerpiece);
   centergroup.add(centersphere);
-  scene.add(centergroup);
+  // scene.add(centergroup);
 
   //BACKGROUND
   const backgroundg = new THREE.PlaneGeometry(1000, 1000, 1000);
@@ -120,19 +126,19 @@ function init() {
   pointer = new THREE.Mesh(cursor, cursorm);
   scene.add(pointer);
   var pos = new THREE.Vector3(
-    (mouseX / window.innerWidth) * 500 - 250,
-    -(mouseY / window.innerHeight) * 500 + 250,
+    (mouseX / window.innerWidth) * 250 - 125,
+    -(mouseY / window.innerHeight) * 250 + 125,
     0
   );
   pos = new THREE.Vector3(
-    (mouseX / window.innerWidth) * 500 - 250,
-    -(mouseY / window.innerHeight) * 500 + 250,
+    (mouseX / window.innerWidth) * 250 - 125,
+    -(mouseY / window.innerHeight) * 250 + 125,
     0
   );
   pointer.position.set(pos.x, pos.y, pos.z);
 
   const textm = new THREE.MeshStandardMaterial({
-    color: 0x000000,
+    color: 0xffffff,
   })
 
   const loader = new GLTFLoader();
@@ -188,6 +194,8 @@ function generateTexture() {
   return canvas;
 }
 
+
+
 animate();
 
 function animate() {
@@ -195,8 +203,8 @@ function animate() {
   requestAnimationFrame(animate);
   herotext = scene.getObjectByName("herotext", true);
 
-  let targetx = (mouseX / window.innerWidth) * 500 - 250;
-  let targety = -(mouseY / window.innerHeight) * 500 + 250;
+  let targetx = (mouseX / window.innerWidth) * 200 - 100;
+  let targety = -(mouseY / window.innerHeight) * 200 + 100;
   let distx = targetx - pointer.position.x;
   let disty = targety - pointer.position.y;
   //   tween = new TWEEN.Tween(pointer.position).to({x:pos.x, y:pos.y, z:pos.z}, 10000).start();
@@ -255,7 +263,7 @@ function animate() {
   //   console.log(pointer.position);
   camera.lookAt(pointer.position.x, pointer.position.y, pointer.position.z);
   camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
-  camtargetx = pointer.position.x * -0.6;
+  camtargetx = pointer.position.x * -1.5;
   camtargety = pointer.position.y * -0.4;
   camera.position.x = camtargetx;
   camera.position.y = camtargety;

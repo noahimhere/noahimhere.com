@@ -1,9 +1,9 @@
 :root{
   --text: #ffffff;
-  --background: #121517;
-  --primary: #6408f8;
-  --secondary: #3fabc0;
-  --accent: #1bca8d;
+  --background: #0e0e0e;
+  --primary: #4020b5;
+  --secondary: #1337d7;
+  --accent: #39d886;
 
 }
 canvas{
@@ -15,14 +15,38 @@ canvas{
 
 #menu{
   max-width: 100%;
-  height:100vh;
+  height:87.5vh;
   width:100vw;
   margin:0;
   z-index: 5;
   background-color: var(--background);
   position: relative;
-  display:block;
+  display:flex;
   right:100vw;
+  border-right: 1px solid var(--primary);
+  box-sizing: border-box;
+  flex-direction: column;
+}
+.menubutton{
+  background: linear-gradient(to left, var(--background) 50%, var(--accent) 50%) right;
+  background-size: 200% 100%;
+  box-sizing:border-box;
+  height: 25vh;
+  width: 80vw;
+  border-bottom:1px solid var(--primary);
+  border-right: 1px solid var(--primary);
+  transition:all 0.4s ease;
+}
+.menubutton:hover{
+  background-position: left;
+  transition:all 0.4s ease;
+}
+
+#topbar{
+  height:12.5vh;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--primary);
+  box-sizing: border-box;
 }
 
 h1{
@@ -32,4 +56,12 @@ h1{
 body{
   margin: 0;
   overflow-x:hidden;
+  --dot-bg: var(--background);
+  --dot-color: var(--accent);
+  --dot-size: 1px;
+  --dot-space: 5vw;
+	background:
+		linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+		linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+		var(--dot-color);
 }
