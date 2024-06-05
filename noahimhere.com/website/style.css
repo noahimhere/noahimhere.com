@@ -13,6 +13,29 @@ canvas{
   z-index: 2;
 }
 
+/* #textholder{
+  display: table;
+  width: 100vw;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#herotext{
+  color:white;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  margin: auto;
+  display: table-cell;
+  vertical-align: middle;
+  font-size: 10vw;
+  width: 100%;
+  text-align: center;
+
+} */
+
 #menu{
   max-width: 100%;
   height:100vh;
@@ -33,8 +56,8 @@ canvas{
   box-sizing:border-box;
   height: 25vh;
   width: 80vw;
-  border-bottom:1px solid var(--primary);
-  border-right: 1px solid var(--primary);
+  /* border-bottom:1px solid var(--primary);
+  border-right: 1px solid var(--primary); */
   transition:all 0.4s ease;
   display:flex;
   justify-content: center;

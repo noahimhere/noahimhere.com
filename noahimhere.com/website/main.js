@@ -186,7 +186,7 @@ function init() {
               
               scene.add(gltf.scene);
               gltf.scene.rotation.x = 1.5;
-              gltf.scene.position.z = -250;
+              gltf.scene.position.z = -550;
               gltf.scene.position.y = 0;
               console.log(gltf.scene.rotation);
               console.log(child.name);
