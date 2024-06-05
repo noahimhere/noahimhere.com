@@ -137,33 +137,62 @@ function init() {
   );
   pointer.position.set(pos.x, pos.y, pos.z);
 
-  const textm = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
+  const textm = new THREE.MeshBasicMaterial({
+    color: 0x4020b5,
+    wireframe: true,
+  })
+  const herotextm = new THREE.MeshBasicMaterial({
+    color:0xffffff,
   })
 
   const loader = new GLTFLoader();
   loader.load(
-    '/models/herotext.glb',
+    '/models/IBM.glb',
     function(gltf){
       gltf.scene.traverse((child) => {
         let meshIndex = 0;
         if (child.isMesh){
-          console.log("le child is le mesh");
 
           switch(meshIndex){
             case 0:
               child.material = textm;
               
               scene.add(gltf.scene);
-              gltf.scene.rotation.x = 1.5;
-              gltf.scene.rotation.y = 0;
-              gltf.scene.position.z = -250;
+              // gltf.scene.rotation.x = 1.5;
+              gltf.scene.rotation.y = -2;
+              gltf.scene.position.z = -150;
+              gltf.scene.position.y = -150;
               console.log(gltf.scene.rotation);
-              child.name = "herotext";
               console.log(child.name);
               break;
             case 1:
-              child.material = new THREE.MeshBasicMaterial({color : 0xffffff});
+              child.material = new THREE.MeshBasicMaterial({color : 0xffffff, wireframe: true,});
+          }
+          meshIndex++;
+        }
+      })
+    }
+  )
+  loader.load(
+    '/models/herotext.glb',
+    function(gltf){
+      gltf.scene.traverse((child) => {
+        let meshIndex = 0;
+        if (child.isMesh){
+
+          switch(meshIndex){
+            case 0:
+              child.material = herotextm;
+              
+              scene.add(gltf.scene);
+              gltf.scene.rotation.x = 1.5;
+              gltf.scene.position.z = -250;
+              gltf.scene.position.y = 0;
+              console.log(gltf.scene.rotation);
+              console.log(child.name);
+              break;
+            case 1:
+              child.material = new THREE.MeshBasicMaterial({color : 0xffffff, wireframe: true,});
           }
           meshIndex++;
         }
