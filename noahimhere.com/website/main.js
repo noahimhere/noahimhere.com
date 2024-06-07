@@ -30,6 +30,16 @@ var scene, camera, renderer;
 var geometry, material;
 var pointer;
 var centerpiece;
+var ran = 0;
+var changing = [["NOAH KIM", "NOAHIMHERE", "NOAH KIM", "NOAHIMHERE"],["FRONTEND DEVELOPER", "BLENDER ARTIST", "STUDENT", "ASTRONOMER"]]
+
+
+const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+let interval = null;
+
+var scrambling = false;
+
 
 
 import * as POSTPROCESSING from "postprocessing"
@@ -37,7 +47,7 @@ import { SSGIEffect, TRAAEffect, MotionBlurEffect, VelocityDepthNormalPass } fro
 
 
 
-
+var temp = "";
 
 init();
 function getmouse() {}
@@ -158,10 +168,11 @@ function init() {
               child.material = textm;
               
               scene.add(gltf.scene);
-              // gltf.scene.rotation.x = 1.5;
-              gltf.scene.rotation.y = -2;
+              gltf.scene.rotation.x = -.05;
+              gltf.scene.rotation.y = -2.15;
               gltf.scene.position.z = -150;
               gltf.scene.position.y = -150;
+              // gltf.scene.position.x = -350;
               console.log(gltf.scene.rotation);
               console.log(child.name);
               break;
@@ -173,32 +184,32 @@ function init() {
       })
     }
   )
-  loader.load(
-    '/models/herotext.glb',
-    function(gltf){
-      gltf.scene.traverse((child) => {
-        let meshIndex = 0;
-        if (child.isMesh){
+  // loader.load(
+  //   '/models/herotext.glb',
+  //   function(gltf){
+  //     gltf.scene.traverse((child) => {
+  //       let meshIndex = 0;
+  //       if (child.isMesh){
 
-          switch(meshIndex){
-            case 0:
-              child.material = herotextm;
+  //         switch(meshIndex){
+  //           case 0:
+  //             child.material = herotextm;
               
-              scene.add(gltf.scene);
-              gltf.scene.rotation.x = 1.5;
-              gltf.scene.position.z = -550;
-              gltf.scene.position.y = 0;
-              console.log(gltf.scene.rotation);
-              console.log(child.name);
-              break;
-            case 1:
-              child.material = new THREE.MeshBasicMaterial({color : 0xffffff, wireframe: true,});
-          }
-          meshIndex++;
-        }
-      })
-    }
-  )
+  //             scene.add(gltf.scene);
+  //             gltf.scene.rotation.x = 1.5;
+  //             gltf.scene.position.z = -550;
+  //             gltf.scene.position.y = 0;
+  //             console.log(gltf.scene.rotation);
+  //             console.log(child.name);
+  //             break;
+  //           case 1:
+  //             child.material = new THREE.MeshBasicMaterial({color : 0xffffff, wireframe: true,});
+  //         }
+  //         meshIndex++;
+  //       }
+  //     })
+  //   }
+  // )
   
 
 
@@ -313,10 +324,49 @@ function animate() {
 
   // if(herotext != null){herotext.lookAt(camera)};
 
-
+  
 
   renderer.render(scene, camera);
+
+  console.log(Math.round(clock.getElapsedTime()));
 }
+
+
+const lexicon = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var mode = 0;
+window.setInterval(function(){
+  let iters = 0;
+  temp = "";
+  const scramble = document.getElementsByClassName("scrambletime");
+  for(let i = 0; i < 2; i++){
+    const interval = setInterval(() =>{
+    //changing the first one's text. This is definitely not the best way of doing it in terms of optimization, but I can't think of a better way for now.
+    scramble[i].innerText = changing[i][mode];
+    scramble[i].innerText = scramble[i].innerText.split("")
+      .map((lexicons, index) => {
+        if(index < iters){
+          return changing[i][mode][index];
+        }
+        return lexicon[Math.floor(Math.random() * 26)]
+        })
+      .join("");
+      if(iters >= changing[i][mode].length) clearInterval(interval);
+
+
+      iters += 1 / 3;
+
+    }, 25);
+  }
+
+
+  if(mode >= 3){
+    mode = 0;
+  }
+  else{
+  mode += 1;
+  }
+}, 3000);
+
 
 
 //ESC MENU
@@ -331,3 +381,55 @@ document.body.addEventListener('keydown', function(e) {
     menuon = false
   }
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  let h1s = document.getElementsByClassName("scramblehover");
+  let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Ensure letters is defined
+
+  function createHoverHandler() {
+    let interval;
+
+    return function(event) {
+      let iteration = 0;
+      clearInterval(interval);
+
+      interval = setInterval(() => {
+        event.target.innerText = event.target.innerText
+          .split("")
+          .map((letter, index) => {
+            if (index < iteration) {
+              return event.target.dataset.value[index];
+            }
+
+            return letters[Math.floor(Math.random() * 26)];
+          })
+          .join("");
+
+        if (iteration >= event.target.dataset.value.length) {
+          clearInterval(interval);
+        }
+
+        iteration += 1 / 3;
+      }, 30);
+    };
+  }
+
+  console.log(h1s);
+  for (let i = 0; i < h1s.length; i++) {
+    h1s[i].onmouseover = createHoverHandler();
+    
+    // Uncomment this part if you want to reset the text on mouse out
+    // h1s[i].onmouseout = event => {
+    //   event.target.innerText = event.target.dataset.value;
+    // };
+  }
+});
+
+
+
+
+
+
+document.querySelector("h1").onmouseover = event => {  
+
+}

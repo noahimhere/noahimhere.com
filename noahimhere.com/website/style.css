@@ -13,13 +13,15 @@ canvas{
   z-index: 2;
 }
 
-/* #textholder{
-  display: table;
+.name{
+  display: flex;
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #herotext{
@@ -27,14 +29,29 @@ canvas{
   z-index: 1;
   top: 0;
   left: 0;
-  margin: auto;
-  display: table-cell;
-  vertical-align: middle;
-  font-size: 10vw;
-  width: 100%;
-  text-align: center;
+  font-size: 7.5vw;
+  display: block;
+  text-align: right;
+  padding: 0 2.5vw 0 2.5vw;
+  /* background-color: 0; */
+  height: fit-content;
+}
 
-} */
+#changing{
+  color:white;
+  z-index:1;
+  top:0;
+  left:0;
+  display: block;
+  text-align: right;
+  padding: 0 2.5vw 0 2.5vw;
+  font-size: 2vw;
+  transition: all 0.4s ease;
+}
+
+h3{
+  color: white;
+}
 
 #menu{
   max-width: 100%;
@@ -55,7 +72,7 @@ canvas{
   background-size: 200% 100%;
   box-sizing:border-box;
   height: 25vh;
-  width: 80vw;
+  width: 100vw;
   /* border-bottom:1px solid var(--primary);
   border-right: 1px solid var(--primary); */
   transition:all 0.4s ease;
@@ -96,11 +113,12 @@ body{
   overflow-x:hidden;
   --dot-bg: var(--background);
   --dot-color: var(--accent);
-  --dot-size: 1px;
-  --dot-space: 5vw;
+  --dot-size: 2px;
+  --dot-space: 4vw;
 	background:
 		linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
 		linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
 		var(--dot-color);
   font-family: "Jetbrains Mono", sans-serif;
+  
 }
