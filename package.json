@@ -5,6 +5,7 @@
   "dependencies": {
     "@tweenjs/tween.js": "^23.1.2",
     "gsap": "^3.12.5",
+    "jquery": "^3.7.1",
     "three": "^0.164.1"
   }
 }

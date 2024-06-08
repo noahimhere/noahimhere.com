@@ -25,7 +25,8 @@ document.addEventListener("mousemove", function (evt) {
   mouseX = evt.clientX;
   mouseY = evt.clientY;
 });
-
+import $ from 'jquery';
+window.$ = $;
 var scene, camera, renderer;
 var geometry, material;
 var pointer;
@@ -304,7 +305,7 @@ function animate() {
   camera.lookAt(pointer.position.x, pointer.position.y, pointer.position.z);
   camera.rotation.z = camera.rotation.z + (distx * speed) / -550;
   camtargetx = pointer.position.x * -1.5;
-  camtargety = pointer.position.y * -0.4;
+  camtargety = pointer.position.y * -2;
   camera.position.x = camtargetx;
   camera.position.y = camtargety;
   centerpiece.position.z = -1;
@@ -353,7 +354,7 @@ window.setInterval(function(){
       if(iters >= changing[i][mode].length) clearInterval(interval);
 
 
-      iters += 1 / 3;
+      iters += 1 / 2;
 
     }, 25);
   }
@@ -367,7 +368,7 @@ window.setInterval(function(){
   }
 }, 3000);
 
-
+const titletext = document.getElementById("titletext")
 
 //ESC MENU
 
@@ -417,19 +418,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
   console.log(h1s);
   for (let i = 0; i < h1s.length; i++) {
     h1s[i].onmouseover = createHoverHandler();
-    
-    // Uncomment this part if you want to reset the text on mouse out
-    // h1s[i].onmouseout = event => {
-    //   event.target.innerText = event.target.dataset.value;
-    // };
   }
 });
 
 
+const blob = document.getElementById("blob");
+// const mixer = document.getElementById("mixer");
 
-
-
-
-document.querySelector("h1").onmouseover = event => {  
-
+document.body.onpointermove = event => {
+  const {clientX, clientY} = event;
+  blob.animate({
+    left: `${clientX}px`,
+    top: `${clientY}px`,
+  }, {duration: 750, fill: "forwards"});
+  // mixer.animate({
+  //   left: `${clientX}px`,
+  //   top: `${clientY}px`,
+  // }, {duration: 3000, fill: "forwards"});
 }
