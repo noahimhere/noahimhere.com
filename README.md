@@ -1,0 +1,1 @@
+To combat my ability of generate a lot of clutter, I moved all vital files to another vite project, also because I had accidentally deleted some vital vite parts on accident as this is my first time using it. MASTER is the branch you should probably be checking.
