@@ -1,7 +1,6 @@
 import "./style.css";
 import barba from '@barba/core';
 
-
 import * as THREE from "three";
 // import { Sky } from 'three/addons/objects/Sky.js';
 // import { Water } from 'three/addons/objects/Water.js';
@@ -28,7 +27,6 @@ document.addEventListener("mousemove", function (evt) {
 });
 import $ from 'jquery';
 window.$ = $;
-var scene, camera, renderer;
 var geometry, material;
 var pointer;
 var centerpiece;
@@ -40,6 +38,7 @@ const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 let interval = null;
 
 var scrambling = false;
+
 
 
 
@@ -112,3 +111,47 @@ document.body.onpointermove = event => {
   //   top: `${clientY}px`,
   // }, {duration: 3000, fill: "forwards"});
 }
+
+
+
+//transition
+
+function pagetrans(){
+  const threejs = document.getElementById("bg");
+  if(threejs){threejs.style.display = "none"};
+}
+
+function pageanim(){
+  const threejs = document.getElementById("bg");
+  if(threejs){threejs.style.display = "block"}
+}
+function delay(n){
+  n = n || 2000;
+  return new Promise((done) => {
+    setTimeout(() => {
+      done();
+    }, n);
+  });
+}
+
+// barba.init({
+//   sync: true,
+//   transitions: [{
+//     name: 'default-transition',
+//     async leave(data) {
+//       const done = this.async();
+//       pagetrans();
+//       await delay(1000);
+//       done();
+//     },
+//     async enter(data) {
+//       pageanim();
+//     },
+//     beforeEnter(data){
+//       init();
+
+//       animate();
+
+//     }
+//   }]
+// });

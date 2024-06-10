@@ -84,7 +84,7 @@ window.setInterval(function(){
   }
 }, 3000);
 
-init();
+
 function getmouse() {}
 function init() {
   //BASIC STARTER STUFF
@@ -271,7 +271,6 @@ function generateTexture() {
 
 
 
-animate();
 
 function animate() {
   //   TWEEN.update();
@@ -366,3 +365,9 @@ function animate() {
   console.log(Math.round(clock.getElapsedTime()));
 }
 
+
+console.log("IT DIDN'T F@#%ING RUN")
+
+init();
+
+animate();
