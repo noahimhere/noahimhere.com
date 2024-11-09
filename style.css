@@ -61,11 +61,10 @@ h3{
   width:100vw;
   margin:0;
   z-index: 6;
-  backdrop-filter: blur(200px);
+  backdrop-filter: blur(0px);
   background-color: #ffffff00;
   position: relative;
   display:flex;
-  right:100vw;
   border-right: 1px solid var(--accent);
   box-sizing: border-box;
   flex-direction: column;
@@ -87,6 +86,8 @@ h3{
   overflow: hidden;
   font-size: 5vh;
   text-decoration: none;
+  position:relative;
+  right: 100vw;
 }
 
 #buttons{
@@ -96,8 +97,9 @@ h3{
   top: 10vh;
 }
 
-.menubutton:hover{
+.menubutton:hover, .menubutton:focus-within{
   font-size: 6vh;
+  outline:0;
 }
 .menubutton > h1{
   color: var(--accent);
@@ -110,9 +112,9 @@ h3{
   left:50vw;
   margin: 0;
 }
-.menubutton:hover{
+.menubutton:hover, .menubutton:focus-within{
   background-position: left;
-
+  outline:0;
   transition:all 0.4s ease;
 }
 
@@ -183,7 +185,7 @@ body{
   animation: rotate 20s infinite;
   backdrop-filter: blur(500px);
   overflow: hidden;
-  mix-blend-mode: difference;
+  z-index: 2;
 }
 html{
   scroll-behavior: smooth;

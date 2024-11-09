@@ -31,9 +31,9 @@ var geometry, material;
 var pointer;
 var centerpiece;
 var ran = 0;
-var changing = [["NOAH KIM", "NOAHIMHERE", "NOAH KIM", "NOAHIMHERE"],["FRONTEND DEVELOPER", "BLENDER ARTIST", "STUDENT", "ASTRONOMER"]]
+var changing = [["NOAH KIM", "NOAHIMHERE", "NOAH KIM", "NOAHIMHERE"],["FULL STACK DEVELOPER", "BLENDER ARTIST", "STUDENT", "ASTROPHOTOGRAPHER"]]
 
-
+console.log("WHY NO RUN??");
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 let interval = null;
@@ -86,7 +86,7 @@ window.setInterval(function(){
 
 
 function getmouse() {}
-function init() {
+export function init() {
   //BASIC STARTER STUFF
   clock.start();
   clock.running = true;
@@ -272,7 +272,7 @@ function generateTexture() {
 
 
 
-function animate() {
+export function animate() {
   //   TWEEN.update();
   requestAnimationFrame(animate);
   herotext = scene.getObjectByName("herotext", true);
@@ -365,9 +365,13 @@ function animate() {
   console.log(Math.round(clock.getElapsedTime()));
 }
 
+window.addEventListener("pagehide", (event) => {
+  return
+})
 
-console.log("IT DIDN'T F@#%ING RUN")
 
 init();
 
 animate();
+
+

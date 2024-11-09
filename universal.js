@@ -1,6 +1,5 @@
 import "./style.css";
-import barba from '@barba/core';
-
+// import barba from '@barba/core';
 import * as THREE from "three";
 // import { Sky } from 'three/addons/objects/Sky.js';
 // import { Water } from 'three/addons/objects/Water.js';
@@ -42,18 +41,25 @@ var scrambling = false;
 
 
 
-
 const titletext = document.getElementById("titletext")
 
 //ESC MENU
 
 document.body.addEventListener('keydown', function(e) {
   if (e.key == "Escape" && menuon == false) {
-    gsap.to("#menu", {x:window.innerWidth})
+    gsap.to("#HOME", {x:window.innerWidth, delay: 0});
+    gsap.to("#WORKS", {x:window.innerWidth, delay: 0.1});
+    gsap.to("#INFORMATION", {x:window.innerWidth, delay: 0.2});
+    gsap.to("#CONTACT", {x:window.innerWidth, delay: 0.3});
+    gsap.to("#menu", {backdropFilter: 'blur(200px)', delay: 0.4});
     menuon = true;
   }
   else if (e.key == "Escape" && menuon == true){
-    gsap.to("#menu", {x:-window.innerWidth})
+    gsap.to("#HOME", {x:-window.innerWidth, delay: 0});
+    gsap.to("#WORKS", {x:-window.innerWidth, delay: 0.1});
+    gsap.to("#INFORMATION", {x:-window.innerWidth, delay: 0.2});
+    gsap.to("#CONTACT", {x:-window.innerWidth, delay: 0.3});
+    gsap.to('#menu', {backdropFilter: 'blur(0px)', delay: 0.4});
     menuon = false
   }
 });
@@ -99,8 +105,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 const blob = document.getElementById("blob");
 // const mixer = document.getElementById("mixer");
-
+blob.style.display = "none"
 document.body.onpointermove = event => {
+  blob.style.display = "inline"
   const {clientX, clientY} = event;
   blob.animate({
     left: `${clientX}px`,
@@ -148,9 +155,7 @@ function delay(n){
 //       pageanim();
 //     },
 //     beforeEnter(data){
-//       init();
 
-//       animate();
 
 //     }
 //   }]
