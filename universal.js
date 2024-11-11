@@ -51,7 +51,7 @@ document.body.addEventListener('keydown', function(e) {
     gsap.to("#WORKS", {x:window.innerWidth, delay: 0.1});
     gsap.to("#INFORMATION", {x:window.innerWidth, delay: 0.2});
     gsap.to("#CONTACT", {x:window.innerWidth, delay: 0.3});
-    gsap.to("#menu", {backdropFilter: 'blur(200px)', delay: 0.4});
+    gsap.to("#menu", {backdropFilter: 'blur(200px)', delay: 0.2});
     menuon = true;
   }
   else if (e.key == "Escape" && menuon == true){

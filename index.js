@@ -31,7 +31,7 @@ var geometry, material;
 var pointer;
 var centerpiece;
 var ran = 0;
-var changing = [["NOAH KIM", "NOAHIMHERE", "NOAH KIM", "NOAHIMHERE"],["FULL STACK DEVELOPER", "BLENDER ARTIST", "STUDENT", "ASTROPHOTOGRAPHER"]]
+var changing = [["NOAH KIM", "NOAHIMHERE", "NOAH KIM", "NOAHIMHERE"],["FULL STACK DEVELOPER", "BLENDER ARTIST", "ASTROPHOTOGRAPHER"]]
 
 console.log("WHY NO RUN??");
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
